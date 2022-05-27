@@ -60,7 +60,7 @@ class MyCustomForm extends StatelessWidget {
           child: TextField(
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              hintText: 'Please enter a word to produce anagrams',
+              hintText: 'Enter a word to produce anagrams',
             ),
           ),
         ),
