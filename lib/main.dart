@@ -40,6 +40,7 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(appTitle),
+          centerTitle: true,
         ),
         body: const MyCustomForm(),
       ),
@@ -52,8 +53,9 @@ class MyCustomForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    /*return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      // ignore: prefer_const_literals_to_create_immutables
       children: <Widget>[
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -64,6 +66,46 @@ class MyCustomForm extends StatelessWidget {
             ),
           ),
         ),
+        ElevatedButton(
+          child: Text('Calculate'),
+          onPressed: () {
+            print("test");
+          },
+        ),
+      ],
+    );
+
+    */
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: SizedBox(
+            width: 500,
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter a word to produce anagrams',
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(150, 60),
+              maximumSize: const Size(150, 60),
+            ),
+            child: const Text('Calculate'),
+            onPressed: () {
+              // ignore: avoid_print
+              print("test");
+            },
+          ),
+        )
       ],
     );
   }
