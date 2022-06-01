@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:webapp/models/anagram_model.dart';
+import 'package:webapp/services/anagram_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,11 +41,22 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String returnText = "";
+  List<String>? values;
+  bool isLoaded = false;
+  AnagramModel? anagram;
 
-  //updates the text on the screen when the button is clicked
-  void updateText(String text) {
+  //gets anagram data and stores it in the returnText and values variables for use
+  Future<void> getAnagramData(String text) async {
+    //calls the anagram functio nand stores the anagram return into the anagramModel object
+    anagram = await AnagramService().getAnagram(text);
     setState(() {
-      returnText = text;
+      //checks to see if the values are null. otherwise adds the values to the variables
+      if (anagram?.letters != null && anagram?.words != null) {
+        //adds the values to the variables
+        returnText = anagram!.letters;
+        values = anagram!.words;
+        isLoaded = true;
+      }
     });
   }
 
@@ -58,7 +71,7 @@ class _MainPageState extends State<MainPage> {
         children: <Widget>[
           //displays the input box and the elevated button
           //passes the text from the TextField and returns it to the webpage
-          AnagramInput(updateText),
+          AnagramInput(getAnagramData),
           Text(returnText),
         ],
       ),
