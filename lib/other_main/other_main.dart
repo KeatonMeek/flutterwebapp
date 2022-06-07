@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:webapp/models/anagram_model.dart';
 import 'package:webapp/other_main/other_main_model.dart';
+import 'package:webapp/other_main/return_anagram_values.dart';
 
 /* We use this package in our main project called Riverpod/Hooks
  * The purpose of this is easier state management, less boilerplate, and better readability
@@ -11,12 +12,18 @@ import 'package:webapp/other_main/other_main_model.dart';
 class OtherMain extends HookConsumerWidget {
   const OtherMain({Key? key}) : super(key: key);
 
-  Future<void> _submit(OtherMainModel modelNotifier, TextEditingController inputController, ValueNotifier<AnagramModel?> anagramsResult) async {
-    anagramsResult.value = await modelNotifier.getAnagramData(inputController.value.text);
+  Future<void> _submit(
+      OtherMainModel modelNotifier,
+      TextEditingController inputController,
+      ValueNotifier<AnagramModel?> anagramsResult) async {
+    anagramsResult.value =
+        await modelNotifier.getAnagramData(inputController.value.text);
     inputController.text = '';
   }
 
-  Widget _buildAnagramInput(TextEditingController inputController, OtherMainModel modelNotifier, ValueNotifier<AnagramModel?> anagramsResult, {bool isLoading = false}) {
+  Widget _buildAnagramInput(TextEditingController inputController,
+      OtherMainModel modelNotifier, ValueNotifier<AnagramModel?> anagramsResult,
+      {bool isLoading = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -29,19 +36,24 @@ class OtherMain extends HookConsumerWidget {
               controller: inputController,
               enabled: !isLoading,
               // this allows you to press enter on your keyboard and submit the form
-              onEditingComplete: () async => await _submit(modelNotifier, inputController, anagramsResult),
+              onEditingComplete: () async =>
+                  await _submit(modelNotifier, inputController, anagramsResult),
               decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter a word to produce anagrams'
-              ),
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter a word to produce anagrams'),
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(12),
           child: ElevatedButton(
-            onPressed: isLoading ? null : () async => _submit(modelNotifier, inputController, anagramsResult),
-            child: isLoading ? const CircularProgressIndicator() : const Text('Submit'),
+            onPressed: isLoading
+                ? null
+                : () async =>
+                    _submit(modelNotifier, inputController, anagramsResult),
+            child: isLoading
+                ? const CircularProgressIndicator()
+                : const Text('Submit'),
           ),
         )
       ],
@@ -52,28 +64,49 @@ class OtherMain extends HookConsumerWidget {
     if (anagramsResult.value == null) {
       return const SizedBox(height: 0, width: 0);
     } else {
+      AnagramData data = AnagramData();
+      var wordLength = data.words(anagramsResult);
       return Expanded(
         child: ListView.builder(
-          itemCount: anagramsResult.value!.words.length,
+          itemCount: wordLength,
           itemBuilder: (_, index) {
             final currentResult = anagramsResult.value!.words[index];
 
+            return Container(
+              padding: const EdgeInsets.all(8),
+              height: 200,
+              width: 40,
+              child: Card(
+                elevation: 10,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(data.words(anagramsResult).toString()),
+                ),
+              ),
+            );
+
+            /*
             return Card(
               child: Padding(
                 padding: const EdgeInsets.all(8),
+                //child: Text(anagramsResult.value!.letters),
                 child: Text(currentResult),
               ),
             );
+            */
           },
         ),
       );
     }
   }
 
-  Widget _buildContent(TextEditingController inputController, OtherMainModel modelNotifier, ValueNotifier<AnagramModel?> anagramsResult, {bool isLoading = false}) {
+  Widget _buildContent(TextEditingController inputController,
+      OtherMainModel modelNotifier, ValueNotifier<AnagramModel?> anagramsResult,
+      {bool isLoading = false}) {
     return Column(
       children: [
-        _buildAnagramInput(inputController, modelNotifier, anagramsResult, isLoading: isLoading),
+        _buildAnagramInput(inputController, modelNotifier, anagramsResult,
+            isLoading: isLoading),
         _buildAnagramsResult(anagramsResult)
       ],
     );
@@ -87,11 +120,12 @@ class OtherMain extends HookConsumerWidget {
     final anagramsResult = useState<AnagramModel?>(null);
 
     return Scaffold(
-      body: pageState.when(
-        initial: () => _buildContent(inputController, modelNotifier, anagramsResult),
-        loading: () => _buildContent(inputController, modelNotifier, anagramsResult, isLoading: true),
-        error: (errText) => Text(errText)
-      )
-    );
+        body: pageState.when(
+            initial: () =>
+                _buildContent(inputController, modelNotifier, anagramsResult),
+            loading: () => _buildContent(
+                inputController, modelNotifier, anagramsResult,
+                isLoading: true),
+            error: (errText) => Text(errText)));
   }
 }
