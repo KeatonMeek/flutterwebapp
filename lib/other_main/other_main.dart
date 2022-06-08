@@ -68,7 +68,7 @@ class OtherMain extends HookConsumerWidget {
       var wordLength = data.words(anagramsResult);
       return Expanded(
         child: ListView.builder(
-          itemCount: wordLength,
+          itemCount: 0,
           itemBuilder: (_, index) {
             final currentResult = anagramsResult.value!.words[index];
 

@@ -6,29 +6,26 @@ class AnagramData {
   var _anagramData = <int, List<String>>{};
 
   int words(ValueNotifier<AnagramModel?> anagramsResult) {
-    int counter = 0;
-    String previousWord = "";
-    String currentWord = "";
+    int currentLength = 0;
+    int previousLength = 0;
+    int wordCount = 0;
+    List<String> words = List<String>.empty(growable: true);
 
     for (var i = 0; i < anagramsResult.value!.words.length; i++) {
-      currentWord = anagramsResult.value!.words[i];
+      currentLength = anagramsResult.value!.words[i].length;
 
-      if (previousWord != "") {
-        //print("yep");
-        if (currentWord.length == previousWord.length) {
-          counter++;
-          currentWord = previousWord;
+      if (previousLength != currentLength) {
+        wordCount = i;
+        for (var j = i - wordCount; j < i; j++) {
+          words.add(anagramsResult.value!.words[j]);
         }
-      } else {
-        previousWord = currentWord;
-        counter++;
+        print(words);
       }
-      print(currentWord);
-    }
 
-    //print(anagramsResult.value!.words.length);
-    print(counter);
-    return counter;
+      previousLength = currentLength;
+    }
+    //print(words);
+    return 2;
   }
 
   String letter(ValueNotifier<AnagramModel?> anagramsResult) {
