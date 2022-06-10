@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,6 +41,8 @@ class OtherMain extends HookConsumerWidget {
               onEditingComplete: () async =>
                   await _submit(modelNotifier, inputController, anagramsResult),
               decoration: const InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
                   border: OutlineInputBorder(),
                   hintText: 'Enter a word to produce anagrams'),
             ),
@@ -46,14 +50,18 @@ class OtherMain extends HookConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(12),
-          child: ElevatedButton(
-            onPressed: isLoading
-                ? null
-                : () async =>
-                    _submit(modelNotifier, inputController, anagramsResult),
-            child: isLoading
-                ? const CircularProgressIndicator()
-                : const Text('Submit'),
+          child: SizedBox(
+            height: 53,
+            width: 150,
+            child: ElevatedButton(
+              onPressed: isLoading
+                  ? null
+                  : () async =>
+                      _submit(modelNotifier, inputController, anagramsResult),
+              child: isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text('Submit'),
+            ),
           ),
         )
       ],
@@ -66,34 +74,41 @@ class OtherMain extends HookConsumerWidget {
     } else {
       AnagramData data = AnagramData();
       var wordLength = data.words(anagramsResult);
+
       return Expanded(
         child: ListView.builder(
-          itemCount: 0,
+          itemCount: wordLength,
           itemBuilder: (_, index) {
-            final currentResult = anagramsResult.value!.words[index];
-
-            return Container(
-              padding: const EdgeInsets.all(8),
-              height: 200,
-              width: 40,
-              child: Card(
-                elevation: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(data.words(anagramsResult).toString()),
+            final currentResult = data.allWords[index];
+            final wordLength = data.wordLengths[index];
+            return Card(
+              elevation: 10,
+              color: Colors.grey[500],
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minHeight: 50,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                      child: Text("Anagrams with length: $wordLength",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 22)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                      child: Text(
+                        currentResult,
+                        style:
+                            const TextStyle(fontSize: 36, color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
-
-            /*
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                //child: Text(anagramsResult.value!.letters),
-                child: Text(currentResult),
-              ),
-            );
-            */
           },
         ),
       );
