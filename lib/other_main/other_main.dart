@@ -34,6 +34,7 @@ class OtherMain extends HookConsumerWidget {
           child: SizedBox(
             width: 500,
             child: TextFormField(
+              key: const Key("anagram"),
               autofocus: true,
               controller: inputController,
               enabled: !isLoading,
@@ -54,6 +55,7 @@ class OtherMain extends HookConsumerWidget {
             height: 53,
             width: 150,
             child: ElevatedButton(
+              key: const Key("submit"),
               onPressed: isLoading
                   ? null
                   : () async =>
