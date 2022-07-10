@@ -61,9 +61,12 @@ void main() {
     app.main();
     await tester.pumpAndSettle();
     await tester.enterText(anagramFormField, "Keaton");
+    
     await tester.tap(submitButton);
+    
     await tester.pumpAndSettle();
 
+    
     if (anagramModel.toString() != actualReturn.toString()) {
       fail("Return Values from the test were not equal");
     }

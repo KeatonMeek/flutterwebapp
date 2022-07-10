@@ -47,7 +47,7 @@ class OtherMain extends HookConsumerWidget {
                   border: OutlineInputBorder(),
                   hintText: 'Enter a word to produce anagrams'),
             ),
-          ),
+          ), 
         ),
         Padding(
           padding: const EdgeInsets.all(12),
@@ -76,7 +76,6 @@ class OtherMain extends HookConsumerWidget {
     } else {
       AnagramData data = AnagramData();
       var wordLength = data.words(anagramsResult);
-
       return Expanded(
         child: ListView.builder(
           itemCount: wordLength,
