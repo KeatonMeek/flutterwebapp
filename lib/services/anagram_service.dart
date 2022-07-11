@@ -5,7 +5,7 @@ class AnagramService {
   Future<AnagramModel> getAnagram(String letters) async {
     var client = http.Client();
 
-    var uri = Uri.parse('http://localhost:5122/anagrams?letters=$letters');
+    var uri = Uri.parse('https://anagramwebapp.azurewebsites.net/anagrams?letters=$letters');
     var response = await client.get(uri);
 
     if (response.statusCode == 200) {
