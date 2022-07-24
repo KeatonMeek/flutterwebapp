@@ -1,25 +1,22 @@
 import 'dart:io';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart' as ft;
 import 'package:integration_test/integration_test.dart';
 import 'package:webapp/main.dart' as app;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webapp/models/anagram_model.dart';
 import 'package:webapp/services/anagram_service.dart';
-import 'package:flutter_driver/driver_extension.dart';
-import 'package:test/test.dart';
+
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   app.main();
 
-  final submitButton = find.byKey(const Key("submit"));
-  final anagramFormField = find.byKey(const Key("anagram"));
-  testWidgets("Tests expected return of input Keaton from REST Api",
-      (WidgetTester tester) async {
-    Map<String, dynamic> caseKeaton = {
-      "letters": "Keaton",
-      "words": [
+  final submitButton = ft.find.byKey(const Key("submit"));
+  final anagramFormField = ft.find.byKey(const Key("anagram"));
+  ft.testWidgets("Tests expected return of input Keaton from REST Api",
+      (ft.WidgetTester tester) async {
+    List<String> caseKeaton = [
         "token",
         "taken",
         "atone",
@@ -51,29 +48,25 @@ void main() {
         "no",
         "an",
         "a"
-      ]
-    };
-
-    var anagramModel = AnagramModel.fromJson(caseKeaton);
-    AnagramService service = AnagramService();
-    AnagramModel actualReturn = await service.getAnagram("Keaton");
+    ];
 
     app.main();
     await tester.pumpAndSettle();
     await tester.enterText(anagramFormField, "Keaton");
     await tester.tap(submitButton);
     await tester.pumpAndSettle();
-
-    if (anagramModel.toString() != actualReturn.toString()) {
-      fail("Return Values from the test were not equal");
+    
+    for(String items in caseKeaton) {
+      ft.expect(ft.find.textContaining(RegExp( r'(^| )' + items + r'(,|$)')),ft.findsOneWidget);
     }
 
     sleep(const Duration(seconds: 5));
   });
 
-  testWidgets("tests return of welcome input from REST API",
-      (WidgetTester tester) async {
-    Map<String, dynamic> caseWelcome = {
+  /*
+  ft.testWidgets("tests return of welcome input from REST API",
+      (ft.WidgetTester tester) async {
+    List<String> caseWelcome = {
       "letters": "welcome",
       "words": [
         "welcome",
@@ -110,9 +103,10 @@ void main() {
     await tester.pumpAndSettle();
 
     if (anagramModel.toString() != actualReturn.toString()) {
-      fail("Return Values from the test were not equal");
+      ft.fail("Return Values from the test were not equal");
     }
 
     sleep(const Duration(seconds: 5));
   });
+  */
 }
