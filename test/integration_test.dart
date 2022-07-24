@@ -53,7 +53,9 @@ void main() {
     app.main();
     await tester.pumpAndSettle();
     await tester.enterText(anagramFormField, "Keaton");
+    
     await tester.tap(submitButton);
+    
     await tester.pumpAndSettle();
     
     for(String items in caseKeaton) {
