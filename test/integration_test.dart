@@ -62,7 +62,7 @@ void main() {
       ft.expect(ft.find.textContaining(RegExp( r'(^| )' + items + r'(,|$)')),ft.findsOneWidget);
     }
 
-   
+  
   });
 
   /*
