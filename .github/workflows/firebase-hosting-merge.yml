@@ -17,4 +17,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLUTTERAPPLICATION_C8E44 }}'
           channelId: live
-          projectId: flutterapplication-c8e44
+          projectId: flutterapplication-c8e44 
