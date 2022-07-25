@@ -21,4 +21,4 @@ jobs:
         with:
           channel: beta
       - run: flutter pub get
-      - run: flutter test
+      - run: flutter test --platform chrome
