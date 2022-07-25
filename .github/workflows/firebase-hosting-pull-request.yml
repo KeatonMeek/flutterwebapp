@@ -23,7 +23,7 @@ jobs:
           projectId: flutterapplication-c8e44
   deploy:
     name: deploy
-    needs: build_and_preview
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
@@ -34,7 +34,7 @@ jobs:
           name: dist
           path: dist
       - name: Deploy to firebase
-        uses: c8e44/firebase-action@main
+      - uses: c8e44/firebase-action@main
         with:
           args: deploy --only hosting
         env: 
