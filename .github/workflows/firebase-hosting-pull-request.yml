@@ -16,6 +16,7 @@ jobs:
       - run: flutter test --platform chrome
       
   build_and_preview:
+    needs: flutter_test
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
