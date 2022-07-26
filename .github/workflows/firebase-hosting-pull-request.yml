@@ -4,19 +4,8 @@
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
 jobs:
-  flutter_test:
-    name: Run Flutter Test
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: beta
-      - run: flutter pub get
-      - run: flutter test --platform chrome
-      
+  
   build_and_preview:
-    needs: flutter_test
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:

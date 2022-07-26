@@ -1,0 +1,20 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Unit Tests
+
+on: push
+
+jobs:
+  flutter_test:
+    name: Run Flutter Test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: beta
+      - run: flutter pub get
+      - run: flutter test --platform chrome
